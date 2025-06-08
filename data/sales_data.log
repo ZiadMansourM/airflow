@@ -1,0 +1,9 @@
+2025-06-07 20:31:53,517 - INFO - Saved as sales_raw_data_2025_05_01.csv with ~10% missing country or amount fields.
+2025-06-07 20:33:03,928 - INFO - sales_raw_data_2025_05_01.csv already exists. No file generated.
+2025-06-07 20:33:04,211 - INFO - File uploaded to S3.
+2025-06-07 20:33:22,500 - INFO - Saved as sales_raw_data_2025_05_02.csv with ~18% missing country or amount fields.
+2025-06-07 20:33:22,748 - INFO - File uploaded to S3.
+2025-06-07 20:33:27,669 - INFO - Saved as sales_raw_data_2025_05_03.csv with ~20% missing country or amount fields.
+2025-06-07 20:33:27,857 - INFO - File uploaded to S3.
+2025-06-07 20:33:33,212 - INFO - Saved as sales_raw_data_2025_05_04.csv with ~30% missing country or amount fields.
+2025-06-07 20:33:33,416 - INFO - File uploaded to S3.

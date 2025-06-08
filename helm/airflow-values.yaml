@@ -1,0 +1,30 @@
+# https://airflow.apache.org/docs/helm-chart/stable/production-guide.html
+
+images:
+  airflow:
+    repository: ziadmmhassanin/airflow
+    tag: "2.10.6"
+    pullPolicy: Always
+
+# executor: CeleryExecutor # or KubernetesExecutor
+executor: KubernetesExecutor
+
+statsd:
+  enabled: False
+
+webserver:
+  # Default: https://airflow.apache.org/docs/helm-chart/stable/parameters-ref.html
+  # Liveness:       http-get http://:8080/health delay=15s timeout=5s period=10s #success=1 #failure=5
+  # Readiness:      http-get http://:8080/health delay=15s timeout=5s period=10s #success=1 #failure=5
+  # Startup:        http-get http://:8080/health delay=0s timeout=20s period=10s #success=1 #failure=6
+  startupProbe:
+    # DOC: failureThreshold {6} : Webserver Startup probe failure threshold.
+    # failureThreshold:
+    # DOC: initialDelaySeconds {0} : Webserver Startup probe initial delay seconds.
+    initialDelaySeconds: 60
+    # DOC: periodSeconds {10} : Webserver Startup probe period seconds.
+    periodSeconds: 30
+    # DOC: timeoutSeconds {20} : Webserver Startup probe timeout seconds.
+    # timeoutSeconds:
+
+webserverSecretKey: f96261019d472b48ea5dc1ed73769916

@@ -1,0 +1,5 @@
+**/*.venv
+**/*.jsonl
+**/*.csv
+
+temp/

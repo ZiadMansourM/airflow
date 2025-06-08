@@ -1,0 +1,8 @@
+2025-06-07 20:33:47,951 - INFO - Saved iot_raw_data_2025_05_01.jsonl with ~14% bad rows.
+2025-06-07 20:33:48,104 - INFO - File uploaded to S3 as raw/iot_2025_05_01.jsonl
+2025-06-07 20:33:51,620 - INFO - Saved iot_raw_data_2025_05_02.jsonl with ~14% bad rows.
+2025-06-07 20:33:51,770 - INFO - File uploaded to S3 as raw/iot_2025_05_02.jsonl
+2025-06-07 20:33:56,367 - INFO - Saved iot_raw_data_2025_05_03.jsonl with ~25% bad rows.
+2025-06-07 20:33:56,484 - INFO - File uploaded to S3 as raw/iot_2025_05_03.jsonl
+2025-06-07 20:34:01,280 - INFO - Saved iot_raw_data_2025_05_04.jsonl with ~30% bad rows.
+2025-06-07 20:34:01,460 - INFO - File uploaded to S3 as raw/iot_2025_05_04.jsonl
