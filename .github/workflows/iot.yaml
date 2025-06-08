@@ -1,0 +1,43 @@
+name: build-iot
+on:
+  push:
+    paths: ["iot/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set image tag
+      id: tags
+      run: | 
+        echo "TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+        echo "DATE_TAG=v$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
+    - name: Build & push
+      uses: docker/build-push-action@v5
+      with:
+        context: ./iot
+        tags: |
+          ziadmmhassanin/process-iot:${{ steps.tags.outputs.TAG }}
+          ziadmmhassanin/process-iot:${{ steps.tags.outputs.DATE_TAG }}
+          ziadmmhassanin/process-iot:latest
+        push: true
+        provenance: false
+        build-args: ""
+      env:
+        DOCKER_BUILDKIT: 1
+        DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # --- bump DAG ---
+    - name: Patch dag_iot.py
+      run: |
+        sed -i "s|process-iot:[^\"']*|process-iot:${{ steps.tags.outputs.TAG }}|" \
+          airflow/dags/dag_iot.py
+    - name: Commit + PR
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch: bump-iot-image-${{ steps.tags.outputs.TAG }}
+        title: "chore: bump process-iot → ${{ steps.tags.outputs.TAG }}"
+        commit-message: "chore(dag): bump process-iot image tag"

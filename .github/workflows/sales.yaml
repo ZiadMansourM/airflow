@@ -1,0 +1,43 @@
+name: build-sales
+on:
+  push:
+    paths: ["sales/**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set image tag
+      id: tags
+      run: |
+        echo "TAG=${GITHUB_SHA::8}" >> $GITHUB_OUTPUT
+        echo "DATE_TAG=v$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+
+    - name: Build & push
+      uses: docker/build-push-action@v5
+      with:
+        context: ./sales
+        tags: |
+          ziadmmhassanin/process-sales:${{ steps.tags.outputs.TAG }}
+          ziadmmhassanin/process-sales:${{ steps.tags.outputs.DATE_TAG }}
+          ziadmmhassanin/process-sales:latest
+        push: true
+        provenance: false
+        build-args: ""
+      env:
+        DOCKER_BUILDKIT: 1
+        DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    # --- bump DAG ---
+    - name: Patch dag_sales.py
+      run: |
+        sed -i "s|process-sales:[^\"']*|process-sales:${{ steps.tags.outputs.TAG }}|" \
+          airflow/dags/dag_sales.py
+    - name: Commit + PR
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch: bump-sales-image-${{ steps.tags.outputs.TAG }}
+        title: "chore: bump process-sales → ${{ steps.tags.outputs.TAG }}"
+        commit-message: "chore(dag): bump process-sales image tag"
